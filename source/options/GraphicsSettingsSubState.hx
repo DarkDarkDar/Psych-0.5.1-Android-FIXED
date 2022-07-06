@@ -34,10 +34,18 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		title = 'Graphics';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
-		//I'd suggest using "Low Quality" as an example for making your own option since it is the simplest here
+		//I'd sugiro usar "Low Quality" como exemplo para fazer sua própria opção, pois é a mais simples aqui
 		var option:Option = new Option('Low Quality', //Name
 			'If checked, disables some background details,\ndecreases loading times and improves performance.', //Description
 			'lowQuality', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
+		addOption(option);
+		
+				//I'd espero que o teu celular aguente kek
+		var option:Option = new Option('Graficos Alto', //Name
+			'If checked, disables some background details,\ndecreases loading times and improves performance.', //Description
+			'GraficosAlto', //Save data variable name
 			'bool', //Variable type
 			false); //Default value
 		addOption(option);
