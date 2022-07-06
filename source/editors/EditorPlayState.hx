@@ -41,6 +41,8 @@ class EditorPlayState extends MusicBeatState
 	var startOffset:Float = 0;
 	var startPos:Float = 0;
 
+	
+
 	public function new(startPos:Float) {
 		this.startPos = startPos;
 		Conductor.songPosition = startPos - startOffset;
@@ -121,7 +123,7 @@ class EditorPlayState extends MusicBeatState
 					lua = null;
 				});
 			}
-		}
+		} gotta fix this soon 
 		#end
 */
 		noteTypeMap.clear();
@@ -146,12 +148,16 @@ class EditorPlayState extends MusicBeatState
 		stepTxt.borderSize = 1.25;
 		add(stepTxt);
 
-		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
+		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC / BACK to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
 		add(tipText);
 		FlxG.mouse.visible = false;
+
+		#if android
+		addAndroidControls();
+		#end
 
 		//sayGo();
 		if(!ClientPrefs.controllerMode)
@@ -159,15 +165,6 @@ class EditorPlayState extends MusicBeatState
 			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		}
-
-		#if android
-		addAndroidControls();
-		#end
-
-		#if android
-		androidc.visible = true;
-		#end
-
 		super.create();
 	}
 
@@ -325,13 +322,10 @@ class EditorPlayState extends MusicBeatState
 	}
 
 	override function update(elapsed:Float) {
-		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
+		if (FlxG.keys.justPressed.ESCAPE#if android || FlxG.android.justReleased.BACK #end)
 		{
 			FlxG.sound.music.pause();
 			vocals.pause();
-                        #if android
-                        androidc.visible = false;
-                        #end
 			LoadingState.loadAndSwitchState(new editors.ChartingState());
 		}
 
@@ -569,7 +563,7 @@ class EditorPlayState extends MusicBeatState
 				//var notesDatas:Array<Int> = [];
 				var notesStopped:Bool = false;
 
-				//trace('test!');
+				trace('test!');
 				var sortedNotesList:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note)
 				{
@@ -577,7 +571,7 @@ class EditorPlayState extends MusicBeatState
 					{
 						if(daNote.noteData == key && !daNote.isSustainNote)
 						{
-							//trace('pushed note!');
+							trace('pushed note!');
 							sortedNotesList.push(daNote);
 							//notesDatas.push(daNote.noteData);
 						}
